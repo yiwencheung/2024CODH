@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\title{CODH作业1}
+\author{张博厚 PB22071354}
+\date{}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+\section*{1.12}
+\subsection*{1.12.1}
+不正确. 从时钟频率看,$CLK(P_1)>CLK(P_2),P_1\mbox{性能高于}P_2.$但从执行时间看,
+$T(P_1) = \frac{0.9\times 5\times10^9}{4\times10^9}=1.125s,T(P_2)
+=\frac{0.75\times10^9}{3\times10^9}=0.25s$, $P_2$的执行时间更短.
+\subsection*{1.12.2}
+$P_1\mbox{执行}1\times10^9$条指令所需的时间为
+$$T_1 = \dfrac{0.9\times10^9}{4\times 10^9}=0.225s$$
+同样的时间$P_2$可以执行的指令数为
+$$N = \dfrac{0.225\times3\times10^9}{0.75} = 9\times10^8$$
+\subsection*{1.12.3}
+不正确.因为
+$$MIPS(P_1) = \dfrac{4\times10^9}{0.9\times1\times10^6}=4.44\times10^3$$
+$$MIPS(P_2) = \dfrac{3\times10^9}{0.75\times1\times10^6} = 4\times10^3$$
+$MIPS(P_1)>MIPS(P_2)$, 但由1.12.1知$P_2$的表现更好.
+
+\subsection*{1.12.4}
+由1.12.1,知
+$$MFLOPS(P_1) = \dfrac{0.4\times5\times 10^9}{1.125\times10^6} = 1.78\times10^3$$
+$$MFLOPS(P_2) = \dfrac{0.4\times1\times10^9}{0.25\times10^6} = 1.6\times10^3$$
+
+\section*{简答题}
+\textbf{Q:}冯诺依曼机结构中指令和数据都存储于存储器中, 系统执行时如何区分?\\
+\textbf{A:}在冯诺依曼结构中, 每条指令执行包括取指,译码,执行,写入等阶段, 在内存中, 指令与
+数据没有区别, CPU会根据当前指令的执行阶段来判断当前处理的是指令还是数据: 若在取指阶段取入则为
+指令,否则为数据.
+\end{document}
