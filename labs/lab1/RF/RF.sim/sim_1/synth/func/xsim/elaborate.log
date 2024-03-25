@@ -1,0 +1,25 @@
+Vivado Simulator v2023.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: F:/xilinx/Vivado/2023.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L secureip --snapshot reg_file_tb_func_synth xil_defaultlib.reg_file_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-2861] module 'reg_file' does not have a parameter named ADDR_WIDTH [D:/Projects/2024CODH/labs/lab1/src/RF_tb.v:14]
+WARNING: [VRFC 10-2861] module 'reg_file' does not have a parameter named DATA_WIDTH [D:/Projects/2024CODH/labs/lab1/src/RF_tb.v:15]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.IBUF
+Compiling module unisims_ver.OBUF
+Compiling module unisims_ver.LUT5
+Compiling module unisims_ver.LUT4
+Compiling module unisims_ver.LUT6
+Compiling module unisims_ver.RAM32M
+Compiling module unisims_ver.RAM32X1D
+Compiling module xil_defaultlib.reg_file
+Compiling module xil_defaultlib.reg_file_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot reg_file_tb_func_synth

@@ -1,0 +1,4 @@
+Time resolution is 1 ps
+Test failed for ra0. Expected: a5a5a5a5, Got: 00000000
+All tests passed.
+$finish called at time : 160 ns : File "D:/Projects/2024CODH/labs/lab1/src/RF_tb.v" Line 60

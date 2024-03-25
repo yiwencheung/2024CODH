@@ -1,22 +1,25 @@
-module RegisterFile (
-    input           clk,		//æ—¶é’Ÿ
-    input   [4:0]   ra0, ra1,	//è¯»åœ°å€
-    output  [31:0]  rd0, rd1,	//è¯»æ•°æ®
-    input   [4:0]   wa,		    //å†™åœ°å€
-    input   [31:0]  wd,	        //å†™æ•°æ®
-    input           we		    //å†™ä½¿èƒ½
-
+module  reg_file # (
+    parameter ADDR_WIDTH  = 5,              //µØÖ·¿í¶È
+    parameter DATA_WIDTH  = 32              //Êı¾İ¿í¶È
+)(
+    input                       clk,        //Ê±ÖÓ
+    input   [ADDR_WIDTH -1:0]   ra0, ra1,   //¶ÁµØÖ·
+    output  [DATA_WIDTH -1:0]   rd0, rd1,   //¶ÁÊı¾İ
+    input   [ADDR_WIDTH -1:0]   wa,         //Ğ´µØÖ·
+    input   [DATA_WIDTH -1:0]   wd,         //Ğ´Êı¾İ
+    input                       we          //Ğ´Ê¹ÄÜ
 );
+    reg [DATA_WIDTH -1:0]  rf [0:(1<<ADDR_WIDTH)-1];    //¼Ä´æÆ÷¶Ñ
 
-reg [31:0]  x[0:31]; 	//å¯„å­˜å™¨å †
+    //¶Á²Ù×÷£ºĞ´ÓÅÏÈ£¬Òì²½¶Á
+    assign rd0 = (wa == ra0 && we && wa != 0) ? wd : rf[ra0];   
+    assign rd1 = (wa == ra1 && we && wa != 0) ? wd : rf[ra1];
 
-assign rd0 = (we & (wa == ra0) & (wa != 0)) ? wd : x[ra0]; 	//è¯»æ“ä½œ,å†™ä¼˜å…ˆ
-assign rd1 = (we & (wa == ra1) & (wa != 0)) ? wd : x[ra1];
+initial rf[0] = 0;
 
-initial x[0] = 0;
+    //Ğ´²Ù×÷£ºÍ¬²½Ğ´
+    always@ (posedge clk) begin
+        if (we && wa != 0)  rf[wa] <= wd;
+    end
 
-always  @(posedge  clk) begin
-    if (we & wa)            //x[0]ä¸å…è®¸ä¿®æ”¹
-         x[wa]  <=  wd;   //åŒæ­¥å†™å…¥
-end
 endmodule

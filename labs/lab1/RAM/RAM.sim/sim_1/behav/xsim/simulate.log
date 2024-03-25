@@ -1,0 +1,2 @@
+Time resolution is 1 ps
+WARNING: File D:\Projecÿÿ‚4CODH\labs\lab1\INIT_FILE.mem referenced from process on D:/Projects/2024CODH/labs/lab1/src/RAM.v at line 15 cannot be opened for reading. Please ensure that this file is available in the current working directory or parent directory of xsim.dir location specified via -xsimdir switch.

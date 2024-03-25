@@ -1,0 +1,45 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="JupyterPackageInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="17">
+            <item index="0" class="java.lang.String" itemvalue="pycurl" />
+            <item index="1" class="java.lang.String" itemvalue="joblib" />
+            <item index="2" class="java.lang.String" itemvalue="scikit-learn" />
+            <item index="3" class="java.lang.String" itemvalue="jupyterlab-server" />
+            <item index="4" class="java.lang.String" itemvalue="nbformat" />
+            <item index="5" class="java.lang.String" itemvalue="pycosat" />
+            <item index="6" class="java.lang.String" itemvalue="nbconvert" />
+            <item index="7" class="java.lang.String" itemvalue="certipy" />
+            <item index="8" class="java.lang.String" itemvalue="jupyter-telemetry" />
+            <item index="9" class="java.lang.String" itemvalue="fastcache" />
+            <item index="10" class="java.lang.String" itemvalue="jupyterhub" />
+            <item index="11" class="java.lang.String" itemvalue="pyOpenSSL" />
+            <item index="12" class="java.lang.String" itemvalue="ruamel-yaml" />
+            <item index="13" class="java.lang.String" itemvalue="bokeh" />
+            <item index="14" class="java.lang.String" itemvalue="jupyterlab" />
+            <item index="15" class="java.lang.String" itemvalue="jsonschema" />
+            <item index="16" class="java.lang.String" itemvalue="notebook" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="torch" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

@@ -21,7 +21,7 @@ always @(*) begin
        4'd9: res = src0 >> src1[4:0];
        4'd10: res = src0 >>> src1[4:0];
        4'd11: res = src1;
-    default: res = 32'hFFFF;       //澶氫綑鐨勫洓浣嶏紝res鍙栧叏1
+    default: res = 32'hFFFF;       //多余的四位，res取全1
     endcase
 end
 

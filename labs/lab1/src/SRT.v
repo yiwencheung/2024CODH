@@ -4,20 +4,22 @@ module SRT #(
                 INIT_FILE = ""
 )(
     input           clk, rstn,
-    input           up,                 //å‡åºoré™åº
-    input           start,              //æ’åºå¼€å§‹æ ‡å¿—
-    input           prior, next,        //æŸ¥çœ‹ä¸Šä¸€ä¸ªï¼Œä¸‹ä¸€ä¸ªå…ƒç´ 
+    input           up,                 //ÉıĞòor½µĞò
+    input           start,              //ÅÅĞò¿ªÊ¼±êÖ¾
+    input           prior, next,        //²é¿´ÉÏÒ»¸ö£¬ÏÂÒ»¸öÔªËØ
 
-    output  reg                            done,               //ç»“æŸæ ‡å¿—
-    output  reg     [2*ADDR_WIDTH : 0]     count,              //æ—¶é’Ÿå‘¨æœŸæ•°
-    output  reg     [ADDR_WIDTH-1 : 0]     index,              //æŸ¥çœ‹æ•°æ®ä¸‹æ ‡
-    output  reg     [DATA_WIDTH-1 : 0]     data                //æŸ¥çœ‹æ•°æ®
+    output  reg                            done,               //½áÊø±êÖ¾
+    output  reg     [2*ADDR_WIDTH : 0]     count,              //Ê±ÖÓÖÜÆÚÊı
+    output  reg     [ADDR_WIDTH-1 : 0]     index,              //²é¿´Êı¾İÏÂ±ê
+    output  reg     [DATA_WIDTH-1 : 0]     data,                //²é¿´Êı¾İ
+    output          [ 3:0]          seg_data,                   //ÊıÂë¹ÜÏÔÊ¾data
+    output          [ 2:0]          seg_an
 );
 
 reg [DATA_WIDTH-1 : 0] ram [0: (1 << ADDR_WIDTH) - 1];    //RAM
-reg [ADDR_WIDTH-1 : 0] Sup_Index, cur_index;         //è®°å½•æ¯æ¬¡å†’æ³¡çš„ä¸Šé™å’Œå½“å‰æŒ‡å‘çš„ä¸‹æ ‡
-reg [DATA_WIDTH-1 : 0] temp;                            //ç”¨äºäº¤æ¢
-wire[DATA_WIDTH-1 : 0] comp_res;                         //ç”¨äºè°ƒç”¨ALUæ¯”è¾ƒä¸¤æ•°å¤§å°
+reg [ADDR_WIDTH-1 : 0] Sup_Index, cur_index;         //¼ÇÂ¼Ã¿´ÎÃ°ÅİµÄÉÏÏŞºÍµ±Ç°Ö¸ÏòµÄÏÂ±ê
+reg [DATA_WIDTH-1 : 0] temp;                            //ÓÃÓÚ½»»»
+wire[DATA_WIDTH-1 : 0] comp_res;                         //ÓÃÓÚµ÷ÓÃALU±È½ÏÁ½Êı´óĞ¡
 
 initial $readmemh(INIT_FILE, ram);    
 
@@ -25,9 +27,9 @@ localparam  WAIT = 3'd0, BEG = 3'd1,
             COMP = 3'd2, CHAN = 3'd3,
             INCRE = 3'd4, CHECK = 3'd5;
             
-reg [2:0] current_state, next_state;        //çŠ¶æ€
+reg [2:0] current_state, next_state;        //×´Ì¬
 
-//è°ƒç”¨ALUæ¯”è¾ƒå¤§å°
+//µ÷ÓÃALU±È½Ï´óĞ¡
 ALU alu(
     .src0(ram[index]),
     .src1(ram[index + 1]),
@@ -35,7 +37,7 @@ ALU alu(
     .res(comp_res)
 );
 
-//çŠ¶æ€è½¬ç§»
+//×´Ì¬×ªÒÆ
 always @(posedge clk ) begin
     if(! rstn)begin
         count <= 0;
@@ -43,13 +45,13 @@ always @(posedge clk ) begin
     end
     else begin
         current_state <= next_state;
-        //æ›´æ–°count
+        //¸üĞÂcount
         if(current_state != WAIT && current_state != CHECK)
-            count <= count + 1;                     //ä»…åœ¨æ¯”è¾ƒé˜¶æ®µå†…è‡ªå¢
+            count <= count + 1;                     //½öÔÚ±È½Ï½×¶ÎÄÚ×ÔÔö
     end
 end
 
-//çŠ¶æ€æ–¹ç¨‹
+//×´Ì¬·½³Ì
 always @(*) begin
     case (current_state)
         WAIT: begin
@@ -80,9 +82,9 @@ always @(*) begin
                 next_state = COMP;
         end
         CHECK: begin
-            //è¿›å…¥æ­¤é˜¶æ®µåä¸èƒ½ä¸»åŠ¨é€€å‡ºï¼Œåªæœ‰å¤ä½æ‰å¯ä»¥
+            //½øÈë´Ë½×¶Îºó²»ÄÜÖ÷¶¯ÍË³ö£¬Ö»ÓĞ¸´Î»²Å¿ÉÒÔ
             next_state = CHECK;
-            //æŸ¥çœ‹æ•°æ®
+            //²é¿´Êı¾İ
             if(prior)
                 index -= 1;
             else if(next)
@@ -91,6 +93,14 @@ always @(*) begin
         end
     endcase
 end
+//ÊıÂë¹ÜÄ£¿éÏÔÊ¾data
+Segment seg(
+    .clk(clk),
+    .rst(~rstn),
+    .output_data(data),
+    .seg_data(seg_data),
+    .seg_an(seg_an)
+);
 
 
 

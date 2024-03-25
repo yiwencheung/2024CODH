@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module RAM #(
     parameter   DATA_WIDTH = 32,
                 ADDR_WIDTH = 10,
