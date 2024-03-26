@@ -5,19 +5,17 @@ module SRT #(
 )(
     input           clk, rstn,
     input           up,                 //升序or降序
-    input           start,              //排序开始标志
-    input           prior, next,        //查看上一个，下一个元素
+    input           start,              //排序??始标??
+    input           prior, next,        //查看上一个，下一个元??
 
     output  reg                            done,               //结束标志
-    output  reg     [2*ADDR_WIDTH : 0]     count,              //时钟周期数
+    output  reg     [2*ADDR_WIDTH : 0]     count,              //时钟周期??
     output  reg     [ADDR_WIDTH-1 : 0]     index,              //查看数据下标
-    output  reg     [DATA_WIDTH-1 : 0]     data,                //查看数据
-    output          [ 3:0]          seg_data,                   //数码管显示data
-    output          [ 2:0]          seg_an
+    output  reg     [DATA_WIDTH-1 : 0]     data                //查看数据
 );
 
 reg [DATA_WIDTH-1 : 0] ram [0: (1 << ADDR_WIDTH) - 1];    //RAM
-reg [ADDR_WIDTH-1 : 0] Sup_Index, cur_index;         //记录每次冒泡的上限和当前指向的下标
+reg [ADDR_WIDTH-1 : 0] Sup_Index, cur_index;         //记录每次冒泡的上限和当前指向的下??
 reg [DATA_WIDTH-1 : 0] temp;                            //用于交换
 wire[DATA_WIDTH-1 : 0] comp_res;                         //用于调用ALU比较两数大小
 
@@ -27,7 +25,7 @@ localparam  WAIT = 3'd0, BEG = 3'd1,
             COMP = 3'd2, CHAN = 3'd3,
             INCRE = 3'd4, CHECK = 3'd5;
             
-reg [2:0] current_state, next_state;        //状态
+reg [2:0] current_state, next_state;        //状???
 
 //调用ALU比较大小
 ALU alu(
@@ -73,7 +71,7 @@ always @(*) begin
             next_state = INCRE;
         end
         INCRE: begin
-            cur_index += 1;
+            cur_index =  cur_index+1;
             if(cur_index == Sup_Index)begin
                 next_state = BEG;
                 Sup_Index = Sup_Index - 1;
@@ -82,26 +80,16 @@ always @(*) begin
                 next_state = COMP;
         end
         CHECK: begin
-            //进入此阶段后不能主动退出，只有复位才可以
+            //进入此阶段后不能主动退出，必须复位
             next_state = CHECK;
             //查看数据
             if(prior)
-                index -= 1;
+                index = index - 1;
             else if(next)
-                index += 1;
+                index = index +1;
             data = ram[index];
         end
     endcase
 end
-//数码管模块显示data
-Segment seg(
-    .clk(clk),
-    .rst(~rstn),
-    .output_data(data),
-    .seg_data(seg_data),
-    .seg_an(seg_an)
-);
-
-
 
 endmodule

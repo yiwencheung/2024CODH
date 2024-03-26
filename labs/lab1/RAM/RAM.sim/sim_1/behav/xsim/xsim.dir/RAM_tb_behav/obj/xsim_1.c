@@ -54,15 +54,15 @@
 #endif
 typedef void (*funcp)(char *, char *);
 extern int main(int, char**);
-IKI_DLLESPEC extern void execute_2(char*, char *);
-IKI_DLLESPEC extern void execute_3(char*, char *);
+IKI_DLLESPEC extern void execute_5(char*, char *);
+IKI_DLLESPEC extern void execute_6(char*, char *);
 IKI_DLLESPEC extern void execute_12(char*, char *);
 IKI_DLLESPEC extern void execute_13(char*, char *);
 IKI_DLLESPEC extern void execute_14(char*, char *);
 IKI_DLLESPEC extern void execute_15(char*, char *);
 IKI_DLLESPEC extern void execute_16(char*, char *);
-IKI_DLLESPEC extern void execute_5(char*, char *);
-IKI_DLLESPEC extern void execute_6(char*, char *);
+IKI_DLLESPEC extern void execute_3(char*, char *);
+IKI_DLLESPEC extern void execute_4(char*, char *);
 IKI_DLLESPEC extern void execute_8(char*, char *);
 IKI_DLLESPEC extern void execute_9(char*, char *);
 IKI_DLLESPEC extern void execute_10(char*, char *);
@@ -74,7 +74,7 @@ IKI_DLLESPEC extern void execute_20(char*, char *);
 IKI_DLLESPEC extern void execute_21(char*, char *);
 IKI_DLLESPEC extern void execute_22(char*, char *);
 IKI_DLLESPEC extern void vlog_transfunc_eventcallback(char*, char*, unsigned, unsigned, unsigned, char *);
-funcp funcTab[20] = {(funcp)execute_2, (funcp)execute_3, (funcp)execute_12, (funcp)execute_13, (funcp)execute_14, (funcp)execute_15, (funcp)execute_16, (funcp)execute_5, (funcp)execute_6, (funcp)execute_8, (funcp)execute_9, (funcp)execute_10, (funcp)execute_11, (funcp)execute_17, (funcp)execute_18, (funcp)execute_19, (funcp)execute_20, (funcp)execute_21, (funcp)execute_22, (funcp)vlog_transfunc_eventcallback};
+funcp funcTab[20] = {(funcp)execute_5, (funcp)execute_6, (funcp)execute_12, (funcp)execute_13, (funcp)execute_14, (funcp)execute_15, (funcp)execute_16, (funcp)execute_3, (funcp)execute_4, (funcp)execute_8, (funcp)execute_9, (funcp)execute_10, (funcp)execute_11, (funcp)execute_17, (funcp)execute_18, (funcp)execute_19, (funcp)execute_20, (funcp)execute_21, (funcp)execute_22, (funcp)vlog_transfunc_eventcallback};
 const int NumRelocateId= 20;
 
 void relocate(char *dp)

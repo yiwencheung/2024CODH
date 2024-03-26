@@ -1,0 +1,31 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Tue Mar 26 19:43:18 2024
+# Process ID: 1336
+# Current directory: D:/Projects/2024CODH/labs/lab1/SRT_ORI/SRT_ORI.runs/synth_1
+# Command line: vivado.exe -log SRT.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source SRT.tcl
+# Log file: D:/Projects/2024CODH/labs/lab1/SRT_ORI/SRT_ORI.runs/synth_1/SRT.vds
+# Journal file: D:/Projects/2024CODH/labs/lab1/SRT_ORI/SRT_ORI.runs/synth_1\vivado.jou
+# Running On: LAPTOP-54TG6O0D, OS: Windows, CPU Frequency: 2419 MHz, CPU Physical cores: 4, Host memory: 16969 MB
+#-----------------------------------------------------------
+source SRT.tcl -notrace
+create_project: Time (s): cpu = 00:00:01 ; elapsed = 00:00:07 . Memory (MB): peak = 472.156 ; gain = 179.438
+Command: synth_design -top SRT -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 19648
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 921.449 ; gain = 444.293
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'SRT' [D:/Projects/2024CODH/labs/lab1/src/SRT.v:1]
+WARNING: [Synth 8-2898] ignoring malformed $readmem task [D:/Projects/2024CODH/labs/lab1/src/SRT.v:22]
+INFO: [Synth 8-6157] synthesizing module 'ALU' [D:/Projects/2024CODH/labs/lab1/src/ALU.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'ALU' (0#1) [D:/Projects/2024CODH/labs/lab1/src/ALU.v:1]
+INFO: [Synth 8-155] case statement is not full and has no default [D:/Projects/2024CODH/labs/lab1/src/SRT.v:54]
+INFO: [Synth 8-6155] done synthesizing module 'SRT' (0#1) [D:/Projects/2024CODH/labs/lab1/src/SRT.v:1]

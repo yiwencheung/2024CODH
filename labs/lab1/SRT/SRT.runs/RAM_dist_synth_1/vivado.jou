@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Tue Mar 26 10:04:56 2024
+# Process ID: 6004
+# Current directory: D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1
+# Command line: vivado.exe -log RAM_dist.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RAM_dist.tcl
+# Log file: D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist.vds
+# Journal file: D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1\vivado.jou
+# Running On: LAPTOP-54TG6O0D, OS: Windows, CPU Frequency: 2419 MHz, CPU Physical cores: 4, Host memory: 16969 MB
+#-----------------------------------------------------------
+source RAM_dist.tcl -notrace
