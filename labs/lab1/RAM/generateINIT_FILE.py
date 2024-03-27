@@ -1,7 +1,7 @@
 import random
 
 # Define the number of lines and the file name
-num_lines = 1024
+num_lines = 16
 file_name = "INIT_FILE.txt"
 
 # Open the file for writing

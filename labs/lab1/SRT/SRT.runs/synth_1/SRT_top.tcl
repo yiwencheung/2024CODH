@@ -70,7 +70,6 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 2
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a100tcsg324-1
 
@@ -87,13 +86,21 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 add_files D:/Projects/2024CODH/labs/lab1/SRT/ip.coe
+read_verilog -library xil_defaultlib -sv {
+  D:/Projects/2024CODH/labs/lab1/src/Seg/Fren_divider.sv
+  D:/Projects/2024CODH/labs/lab1/src/Seg/counter_8.sv
+  D:/Projects/2024CODH/labs/lab1/src/Seg/decoder.sv
+  D:/Projects/2024CODH/labs/lab1/src/Seg/mux.sv
+  D:/Projects/2024CODH/labs/lab1/src/Seg/seven_decode.sv
+  D:/Projects/2024CODH/labs/lab1/src/Seg/update_seg.sv
+}
 read_verilog -library xil_defaultlib {
   D:/Projects/2024CODH/labs/lab1/src/ALU.v
   D:/Projects/2024CODH/labs/lab1/src/SRT_IP.v
   D:/Projects/2024CODH/labs/lab1/src/SRT_top.v
 }
-read_ip -quiet D:/Projects/2024CODH/labs/lab1/SRT/SRT.srcs/sources_1/ip/RAM_dist/RAM_dist.xci
-set_property used_in_implementation false [get_files -all d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_ooc.xdc]
+read_ip -quiet D:/Projects/2024CODH/labs/lab1/SRT/SRT.srcs/sources_1/ip/RAM_dist_1/RAM_dist.xci
+set_property used_in_implementation false [get_files -all d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_ooc.xdc]
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being

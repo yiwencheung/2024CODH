@@ -70,6 +70,8 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "RAM_dist_synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 2
+set_param xicom.use_bs_reader 1
 set_param project.vivado.isBlockSynthRun true
 set_msg_config -msgmgr_mode ooc_run
 OPTRACE "Creating in-memory project" START { }
@@ -87,8 +89,8 @@ set_property ip_output_repo d:/Projects/2024CODH/labs/lab1/SRT/SRT.cache/ip [cur
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_ip -quiet d:/Projects/2024CODH/labs/lab1/SRT/SRT.srcs/sources_1/ip/RAM_dist/RAM_dist.xci
-set_property used_in_implementation false [get_files -all d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_ooc.xdc]
+read_ip -quiet d:/Projects/2024CODH/labs/lab1/SRT/SRT.srcs/sources_1/ip/RAM_dist_1/RAM_dist.xci
+set_property used_in_implementation false [get_files -all d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_ooc.xdc]
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -159,32 +161,32 @@ create_report "RAM_dist_synth_1_synth_report_utilization_0" "report_utilization 
 OPTRACE "synth reports" END { }
 
 if { [catch {
-  file copy -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist.dcp d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist.dcp
+  file copy -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist.dcp d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist.dcp
 } _RESULT ] } { 
   send_msg_id runtcl-3 status "ERROR: Unable to successfully create or copy the sub-design checkpoint file."
   error "ERROR: Unable to successfully create or copy the sub-design checkpoint file."
 }
 
 if { [catch {
-  write_verilog -force -mode synth_stub d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.v
+  write_verilog -force -mode synth_stub d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.v
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create a Verilog synthesis stub for the sub-design. This may lead to errors in top level synthesis of the design. Error reported: $_RESULT"
 }
 
 if { [catch {
-  write_vhdl -force -mode synth_stub d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.vhdl
+  write_vhdl -force -mode synth_stub d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.vhdl
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create a VHDL synthesis stub for the sub-design. This may lead to errors in top level synthesis of the design. Error reported: $_RESULT"
 }
 
 if { [catch {
-  write_verilog -force -mode funcsim d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_sim_netlist.v
+  write_verilog -force -mode funcsim d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_sim_netlist.v
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create the Verilog functional simulation sub-design file. Post-Synthesis Functional Simulation with this file may not be possible or may give incorrect results. Error reported: $_RESULT"
 }
 
 if { [catch {
-  write_vhdl -force -mode funcsim d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_sim_netlist.vhdl
+  write_vhdl -force -mode funcsim d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_sim_netlist.vhdl
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create the VHDL functional simulation sub-design file. Post-Synthesis Functional Simulation with this file may not be possible or may give incorrect results. Error reported: $_RESULT"
 }
@@ -194,32 +196,32 @@ if { [catch {
 
 
 if { [catch {
-  file copy -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist.dcp d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist.dcp
+  file copy -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist.dcp d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist.dcp
 } _RESULT ] } { 
   send_msg_id runtcl-3 status "ERROR: Unable to successfully create or copy the sub-design checkpoint file."
   error "ERROR: Unable to successfully create or copy the sub-design checkpoint file."
 }
 
 if { [catch {
-  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_stub.v d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.v
+  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_stub.v d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.v
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create a Verilog synthesis stub for the sub-design. This may lead to errors in top level synthesis of the design. Error reported: $_RESULT"
 }
 
 if { [catch {
-  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_stub.vhdl d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.vhdl
+  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_stub.vhdl d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.vhdl
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create a VHDL synthesis stub for the sub-design. This may lead to errors in top level synthesis of the design. Error reported: $_RESULT"
 }
 
 if { [catch {
-  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_sim_netlist.v d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_sim_netlist.v
+  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_sim_netlist.v d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_sim_netlist.v
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create the Verilog functional simulation sub-design file. Post-Synthesis Functional Simulation with this file may not be possible or may give incorrect results. Error reported: $_RESULT"
 }
 
 if { [catch {
-  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_sim_netlist.vhdl d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_sim_netlist.vhdl
+  file rename -force D:/Projects/2024CODH/labs/lab1/SRT/SRT.runs/RAM_dist_synth_1/RAM_dist_sim_netlist.vhdl d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_sim_netlist.vhdl
 } _RESULT ] } { 
   puts "CRITICAL WARNING: Unable to successfully create the VHDL functional simulation sub-design file. Post-Synthesis Functional Simulation with this file may not be possible or may give incorrect results. Error reported: $_RESULT"
 }
@@ -229,13 +231,13 @@ close [open .end.used_ip_cache.rst w]
 
 if {[file isdir D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist]} {
   catch { 
-    file copy -force d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.v D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist
+    file copy -force d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.v D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist
   }
 }
 
 if {[file isdir D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist]} {
   catch { 
-    file copy -force d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist/RAM_dist_stub.vhdl D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist
+    file copy -force d:/Projects/2024CODH/labs/lab1/SRT/SRT.gen/sources_1/ip/RAM_dist_1/RAM_dist_stub.vhdl D:/Projects/2024CODH/labs/lab1/SRT/SRT.ip_user_files/ip/RAM_dist
   }
 }
 file delete __synthesis_is_running__

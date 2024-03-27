@@ -5,13 +5,14 @@ module SRT_top (
     input           prior, next,        //查看上一个，下一个元素
     input   [1:0]   sel,                //选择数码管查看的数据
 
-    output    reg      [31 : 0]     output_data,
+    output          [6 : 0]     seg,
     output          [7 : 0]     an             //数码管显示
 );
 wire done;
 wire [8:0] count;
 wire [3:0] index;
 wire [31:0] data;
+reg [31:0] output_data;
 
 //例化排序器模块
 SRT #(
@@ -42,7 +43,13 @@ always @(*) begin
         endcase
     end
 end
-//始终显示
-assign an = 0;
+//显示模块
+update_seg my_seg(
+    .clk(clk),
+    .rstn(rstn),
+    .q(output_data),
+    .an(an),
+    .seg(seg)
+);
 
 endmodule

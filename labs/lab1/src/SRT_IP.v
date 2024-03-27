@@ -17,6 +17,7 @@ reg [ADDR_WIDTH-1 : 0] Sup_Index, cur_index;         //¼ÇÂ¼Ã¿´ÎÃ°ÅİµÄÉÏÏŞºÍµ±Ç°Ö
 reg [DATA_WIDTH-1 : 0] temp;                            //ÓÃÓÚ½»»»
 wire[DATA_WIDTH-1 : 0] comp_res;                         //ÓÃÓÚµ÷ÓÃALU±È½ÏÁ½Êı´óĞ¡
 reg [DATA_WIDTH-1 : 0] data0, data1;                    //Á½Êı¾İ·ÖÊ±¶ÁÈ¡£¬·Ö±ğ´¢´æ 
+reg                    sub_prior, sub_next;
 
 localparam  WAIT = 3'd0, 
             BEG = 3'd1,                 //³õÊ¼»¯
@@ -89,14 +90,23 @@ always @(posedge clk) begin
                 count <= count + 1;
             end
             CHECK: begin
-                if(prior)
+                if(prior && (~sub_prior))begin
                     addr <= addr - 1;
-                else if(next)
+                    sub_prior <= prior;
+                end
+                else if((~prior) && sub_prior)
+                    sub_prior <= prior;
+                else if(next && (~sub_next))begin
                     addr <= addr + 1;
+                    sub_next <= next;
+                end
+                else if((~next) && sub_next)
+                    sub_next <= next;
             end    
         endcase
     end
 end
+
 //×´Ì¬·½³Ì
 always @(*) begin
     we = 0;

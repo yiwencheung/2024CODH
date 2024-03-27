@@ -1,3 +1,0 @@
-dist_mem_gen_v8_0.v,verilog,dist_mem_gen_v8_0_14,../../../ipstatic/simulation/dist_mem_gen_v8_0.v,
-RAM_dist.v,verilog,xil_defaultlib,../../../../SRT.gen/sources_1/ip/RAM_dist/sim/RAM_dist.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

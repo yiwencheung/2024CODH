@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1711457930" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/SRT_top.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1711529772" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/SRT_top.dcp">
   <File Type="PA-TCL" Name="SRT_top.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="SRT_top_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="SRT_top_reports.tcl"/>
   <File Type="RDS-RDS" Name="SRT_top.vds"/>
   <File Type="RDS-UTIL" Name="SRT_top_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="SRT_top_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="SRT_top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="SRT_top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="SRT_top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../src/ALU.v">
@@ -16,6 +19,48 @@
       </FileInfo>
     </File>
     <File Path="$PPRDIR/../src/SRT_IP.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/Fren_divider.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/counter_8.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/decoder.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/mux.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/seven_decode.sv">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../src/Seg/update_seg.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
