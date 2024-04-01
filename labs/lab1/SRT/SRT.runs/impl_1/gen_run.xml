@@ -4,67 +4,60 @@
   <File Type="PA-TCL" Name="SRT_top.tcl"/>
   <File Type="ROUTE-PWR-SUM" Name="SRT_top_power_summary_routed.pb"/>
   <File Type="REPORTS-TCL" Name="SRT_top_reports.tcl"/>
-  <File Type="OPT-RQA-PB" Name="SRT_top_rqa_opted.pb"/>
+  <File Type="BITSTR-MSK" Name="SRT_top.msk"/>
+  <File Type="ROUTE-CLK" Name="SRT_top_clock_utilization_routed.rpt"/>
+  <File Type="RDI-RDI" Name="SRT_top.vdi"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="SRT_top_bus_skew_postroute_physopted.pb"/>
+  <File Type="BG-BIT" Name="SRT_top.bit"/>
+  <File Type="BG-DRC" Name="SRT_top.drc"/>
+  <File Type="BG-BGN" Name="SRT_top.bgn"/>
+  <File Type="BG-BIN" Name="SRT_top.bin"/>
+  <File Type="BITSTR-RBT" Name="SRT_top.rbt"/>
+  <File Type="BITSTR-NKY" Name="SRT_top.nky"/>
+  <File Type="BITSTR-BMM" Name="SRT_top_bd.bmm"/>
   <File Type="BITSTR-MMI" Name="SRT_top.mmi"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="SRT_top_methodology_drc_opted.rpt"/>
-  <File Type="INIT-TIMING" Name="SRT_top_timing_summary_init.rpt"/>
-  <File Type="OPT-TIMING" Name="SRT_top_timing_summary_opted.rpt"/>
-  <File Type="OPT-DCP" Name="SRT_top_opt.dcp"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="SRT_top_methodology_drc_routed.rpt"/>
+  <File Type="BITSTR-SYSDEF" Name="SRT_top.sysdef"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="SRT_top.ltx"/>
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <File Type="OPT-DRC" Name="SRT_top_drc_opted.rpt"/>
   <File Type="OPT-HWDEF" Name="SRT_top.hwdef"/>
-  <File Type="PWROPT-DCP" Name="SRT_top_pwropt.dcp"/>
-  <File Type="PWROPT-DRC" Name="SRT_top_drc_pwropted.rpt"/>
-  <File Type="PWROPT-TIMING" Name="SRT_top_timing_summary_pwropted.rpt"/>
-  <File Type="PLACE-DCP" Name="SRT_top_placed.dcp"/>
   <File Type="PLACE-IO" Name="SRT_top_io_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="SRT_top_clock_utilization_placed.rpt"/>
   <File Type="PLACE-UTIL" Name="SRT_top_utilization_placed.rpt"/>
   <File Type="PLACE-UTIL-PB" Name="SRT_top_utilization_placed.pb"/>
   <File Type="PLACE-CTRL" Name="SRT_top_control_sets_placed.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="SRT_top_incremental_reuse_placed.rpt"/>
   <File Type="PLACE-PRE-SIMILARITY" Name="SRT_top_incremental_reuse_pre_placed.rpt"/>
-  <File Type="BG-BIN" Name="SRT_top.bin"/>
-  <File Type="PLACE-TIMING" Name="SRT_top_timing_summary_placed.rpt"/>
-  <File Type="ROUTE-PWR-RPX" Name="SRT_top_power_routed.rpx"/>
-  <File Type="PLACE-RQA-PB" Name="SRT_top_rqa_placed.pb"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="SRT_top_postplace_pwropt.dcp"/>
-  <File Type="BITSTR-MSK" Name="SRT_top.msk"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="SRT_top_timing_summary_postplace_pwropted.rpt"/>
-  <File Type="PHYSOPT-DCP" Name="SRT_top_physopt.dcp"/>
-  <File Type="PHYSOPT-DRC" Name="SRT_top_drc_physopted.rpt"/>
-  <File Type="BITSTR-RBT" Name="SRT_top.rbt"/>
-  <File Type="PHYSOPT-TIMING" Name="SRT_top_timing_summary_physopted.rpt"/>
-  <File Type="ROUTE-ERROR-DCP" Name="SRT_top_routed_error.dcp"/>
-  <File Type="ROUTE-DCP" Name="SRT_top_routed.dcp"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="SRT_top_routed_bb.dcp"/>
   <File Type="ROUTE-DRC" Name="SRT_top_drc_routed.rpt"/>
   <File Type="ROUTE-DRC-PB" Name="SRT_top_drc_routed.pb"/>
-  <File Type="ROUTE-DRC-RPX" Name="SRT_top_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="SRT_top_methodology_drc_routed.rpt"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="SRT_top_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="SRT_top_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-RQS-PB" Name="SRT_top_rqs_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="SRT_top_power_routed.rpx"/>
   <File Type="ROUTE-STATUS" Name="SRT_top_route_status.rpt"/>
   <File Type="ROUTE-STATUS-PB" Name="SRT_top_route_status.pb"/>
+  <File Type="ROUTE-DCP" Name="SRT_top_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="SRT_top_routed_error.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="SRT_top_routed_bb.dcp"/>
   <File Type="ROUTE-TIMINGSUMMARY" Name="SRT_top_timing_summary_routed.rpt"/>
   <File Type="ROUTE-TIMING-PB" Name="SRT_top_timing_summary_routed.pb"/>
   <File Type="ROUTE-TIMING-RPX" Name="SRT_top_timing_summary_routed.rpx"/>
   <File Type="ROUTE-SIMILARITY" Name="SRT_top_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-CLK" Name="SRT_top_clock_utilization_routed.rpt"/>
   <File Type="ROUTE-BUS-SKEW" Name="SRT_top_bus_skew_routed.rpt"/>
   <File Type="ROUTE-BUS-SKEW-PB" Name="SRT_top_bus_skew_routed.pb"/>
   <File Type="ROUTE-BUS-SKEW-RPX" Name="SRT_top_bus_skew_routed.rpx"/>
+  <File Type="OPT-DCP" Name="SRT_top_opt.dcp"/>
+  <File Type="PLACE-DCP" Name="SRT_top_placed.dcp"/>
+  <File Type="PWROPT-DCP" Name="SRT_top_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="SRT_top_postplace_pwropt.dcp"/>
+  <File Type="PHYSOPT-DCP" Name="SRT_top_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-DCP" Name="SRT_top_postroute_physopt.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="SRT_top_postroute_physopt_bb.dcp"/>
   <File Type="POSTROUTE-PHYSOPT-TIMING" Name="SRT_top_timing_summary_postroute_physopted.rpt"/>
   <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="SRT_top_timing_summary_postroute_physopted.pb"/>
   <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="SRT_top_timing_summary_postroute_physopted.rpx"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="SRT_top_bus_skew_postroute_physopted.rpt"/>
-  <File Type="BG-BIT" Name="SRT_top.bit"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="SRT_top_bus_skew_postroute_physopted.pb"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="SRT_top_bus_skew_postroute_physopted.rpx"/>
-  <File Type="BITSTR-NKY" Name="SRT_top.nky"/>
-  <File Type="BITSTR-BMM" Name="SRT_top_bd.bmm"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="SRT_top_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="SRT_top_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="SRT_top_methodology_drc_routed.rpx"/>
   <File Type="PDI-FILE" Name="SRT_top.pdi"/>
   <File Type="BOOT-PDI-FILE" Name="SRT_top_boot.pdi"/>
   <File Type="PL-PDI-FILE" Name="SRT_top_pld.pdi"/>
@@ -73,13 +66,6 @@
   <File Type="RNPI_FILE" Name="SRT_top.rnpi"/>
   <File Type="NPI_FILE" Name="SRT_top.npi"/>
   <File Type="RBD_FILE" Name="SRT_top.rbd"/>
-  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
-  <File Type="BITSTR-LTX" Name="SRT_top.ltx"/>
-  <File Type="BITSTR-SYSDEF" Name="SRT_top.sysdef"/>
-  <File Type="BG-BGN" Name="SRT_top.bgn"/>
-  <File Type="BG-DRC" Name="SRT_top.drc"/>
-  <File Type="RDI-RDI" Name="SRT_top.vdi"/>
-  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <File Type="ROUTE-RQS" Name="SRT_top_routed.rqs"/>
   <File Type="POSTROUTE-PHYSOPT-RQS" Name="SRT_top_postroute_physopted.rqs"/>
   <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>
@@ -198,6 +184,7 @@
     <Step Id="route_design"/>
     <Step Id="post_route_phys_opt_design"/>
     <Step Id="write_bitstream"/>
+    <Step Id="write_device_image"/>
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="RAM_dist"/>
 </GenRun>
