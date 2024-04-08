@@ -18,10 +18,14 @@
   <File Type="BITSTR-MMI" Name="SRT_top.mmi"/>
   <File Type="ROUTE-METHODOLOGY-DRC" Name="SRT_top_methodology_drc_routed.rpt"/>
   <File Type="BITSTR-SYSDEF" Name="SRT_top.sysdef"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="SRT_top_methodology_drc_routed.pb"/>
   <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
   <File Type="BITSTR-LTX" Name="SRT_top.ltx"/>
+  <File Type="BOOT-PDI-FILE" Name="SRT_top_boot.pdi"/>
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="NPI_FILE" Name="SRT_top.npi"/>
   <File Type="OPT-DRC" Name="SRT_top_drc_opted.rpt"/>
+  <File Type="RBD_FILE" Name="SRT_top.rbd"/>
   <File Type="OPT-HWDEF" Name="SRT_top.hwdef"/>
   <File Type="PLACE-IO" Name="SRT_top_io_placed.rpt"/>
   <File Type="PLACE-UTIL" Name="SRT_top_utilization_placed.rpt"/>
@@ -55,17 +59,13 @@
   <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="SRT_top_timing_summary_postroute_physopted.rpx"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="SRT_top_bus_skew_postroute_physopted.rpt"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="SRT_top_bus_skew_postroute_physopted.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="SRT_top_methodology_drc_routed.pb"/>
   <File Type="ROUTE-DRC-RPX" Name="SRT_top_drc_routed.rpx"/>
   <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="SRT_top_methodology_drc_routed.rpx"/>
   <File Type="PDI-FILE" Name="SRT_top.pdi"/>
-  <File Type="BOOT-PDI-FILE" Name="SRT_top_boot.pdi"/>
   <File Type="PL-PDI-FILE" Name="SRT_top_pld.pdi"/>
   <File Type="RCFI_FILE" Name="SRT_top.rcfi"/>
   <File Type="CFI_FILE" Name="SRT_top.cfi"/>
   <File Type="RNPI_FILE" Name="SRT_top.rnpi"/>
-  <File Type="NPI_FILE" Name="SRT_top.npi"/>
-  <File Type="RBD_FILE" Name="SRT_top.rbd"/>
   <File Type="ROUTE-RQS" Name="SRT_top_routed.rqs"/>
   <File Type="POSTROUTE-PHYSOPT-RQS" Name="SRT_top_postroute_physopted.rqs"/>
   <File Type="ROUTE-RQS-RPT" Name="route_report_qor_suggestions_0.rpt"/>

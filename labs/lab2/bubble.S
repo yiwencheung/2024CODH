@@ -25,7 +25,7 @@ beq     $r4, $r2, end
 loopin:
 ld.w    $r5, $r3, 0
 ld.w    $r6, $r3, 4
-blt     $r6, $r5, change
+blt     $r5, $r6, change
 b       incre
 change:
 st.w    $r5, $r3, 4
