@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{verbatim}
+
+\title{CODH作业3}
+\author{张博厚 PB22071354}
+\date{}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+\section*{单周期部分}
+\subsection*{4.1}
+1. 控制信号: RegWrite=1, ALUSrc=0, ALU operation=4'd4, MemRead=0, MemWrite=0,
+MemtoReg=0.\\
+2.所用到的部件为Registers, ALU和两个MUX.\\
+3.ImmGen没有产生输出, DataMemory的输出没有被用到.
+\subsection*{思考题}
+1.寻址方式如何实现?\\
+\hspace*{0.5cm}Registers: 通过指令译码得到地址.\\
+\hspace*{0.5cm}DataMemory: 通过ALU计算得到地址.\\
+\hspace*{0.5cm}InstMemory: 通过PC得到地址.\\
+2.周期宽度如何确定?\\
+\hspace*{0.5cm}需要观察数据通路, 找到最长的一条通路, 计算该通路上各功能部件延迟以得到数据通路最大延迟, 
+周期宽度应不小于这个值.\\
+3.能否"在一个clk内完成"\\
+\hspace*{0.5cm}同2, 分别计算最大时延和周期宽度后比较, 若周期宽度大于等于最大延迟, 则可以在一个clk内完成,
+否则不能.\\
+4.能否将两个adder合而为一?\\
+\hspace*{0.5cm}不可以.对单周期CPU而言, 两个adder的使用在同一个时钟周期内完成,同时进行, 若合二为一会
+造成冲突.\\
+5.能否将两个Memory合而为一?\\
+\hspace*{0.5cm}不可以.单周期CPU中对指令的读取和对数据的读写操作在同一个是时钟周期内完成, 若将两个Memory
+合成为一个单端口ram, 则不能同时满足.
+
+\end{document}
