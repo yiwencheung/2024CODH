@@ -27,28 +27,28 @@ module SDU_top(
     output txd
     );
     wire clk_cpu;
-    wire [31:0] pc_chk; //用于SDU进行断点检查，在单周期cpu中，pc_chk = pc
+    wire [31:0] pc_chk; //����SDU���жϵ��飬�ڵ�����cpu�У�pc_chk = pc
     wire [31:0] npc;    //next_pc
     wire [31:0] pc;
-    wire [31:0] IR;     //当前指令
-    wire [31:0] IMM;    //立即数
-    wire [31:0] CTL;    //控制信号，你可以将所有控制信号集成一根bus输出
-    wire [31:0] A;      //ALU的输入A
-    wire [31:0] B;      //ALU的输入B
-    wire [31:0] Y;      //ALU的输出
-    wire [31:0] MDR;    //数据存储器的输出
+    wire [31:0] IR;     //��ǰָ��
+    wire [31:0] IMM;    //������
+    wire [31:0] CTL;    //�����źţ�����Խ����п����źż���һ��bus���
+    wire [31:0] A;      //ALU������A
+    wire [31:0] B;      //ALU������B
+    wire [31:0] Y;      //ALU�����
+    wire [31:0] MDR;    //���ݴ洢�������
     /*
-    addr是SDU输出给cpu的地址，
-    cpu根据这个地址从ins_mem/reg_file/data_mem中读取数据，三者共用一个地址！
-    注意，这个地址是你在串口输入的地址，不需要进行任何处理，直接接入cpu中的对应模块即可
-    dout_rf 是从reg_file中读取的addr地址的数据
-    dout_dm 是从data_mem中读取的addr地址的数据
-    dout_im 是从ins_mem中读取的addr地址的数据
-    din 是SDU输出给cpu的数据，cpu需要将这个数据写入到addr地址对应的存储器中
-    we_dm 是数据存储器写使能信号，当we_dm为1时，cpu将din中的数据写入到addr地址对应的存储器中
-    we_im 是指令存储器写使能信号，当we_im为1时，cpu将din中的数据写入到addr地址对应的存储器中
-    clk_ld 是SDU输出的用于调试时写入ins_mem/data_mem的时钟，要跟clk_cpu区分开，这两个clk同时只会有一个在工作
-    debug 是调试信号，当debug为1时，cpu的ins_mem和data_mem应使用clk_ld时钟，否则使用clk时钟
+    addr��SDU�����cpu�ĵ�ַ��
+    cpu���������ַ��ins_mem/reg_file/data_mem�ж�ȡ���ݣ����߹���һ����ַ��
+    ע�⣬�����ַ�����ڴ�������ĵ�ַ������Ҫ�����κδ�����ֱ�ӽ���cpu�еĶ�Ӧģ�鼴��
+    dout_rf �Ǵ�reg_file�ж�ȡ��addr��ַ������
+    dout_dm �Ǵ�data_mem�ж�ȡ��addr��ַ������
+    dout_im �Ǵ�ins_mem�ж�ȡ��addr��ַ������
+    din ��SDU�����cpu�����ݣ�cpu��Ҫ���������д�뵽addr��ַ��Ӧ�Ĵ洢����
+    we_dm �����ݴ洢��дʹ���źţ���we_dmΪ1ʱ��cpu��din�е�����д�뵽addr��ַ��Ӧ�Ĵ洢����
+    we_im ��ָ��洢��дʹ���źţ���we_imΪ1ʱ��cpu��din�е�����д�뵽addr��ַ��Ӧ�Ĵ洢����
+    clk_ld ��SDU��������ڵ���ʱд��ins_mem/data_mem��ʱ�ӣ�Ҫ��clk_cpu���ֿ���������clkͬʱֻ����һ���ڹ���
+    debug �ǵ����źţ���debugΪ1ʱ��cpu��ins_mem��data_memӦʹ��clk_ldʱ�ӣ�����ʹ��clkʱ��
     */
     wire [31:0] addr;   
     wire [31:0] dout_rf;
