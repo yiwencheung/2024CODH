@@ -17,6 +17,13 @@
 MemtoReg=0.\\
 2.所用到的部件为Registers, ALU和两个MUX.\\
 3.ImmGen没有产生输出, DataMemory的输出没有被用到.
+\subsection*{4.7}
+1. R-type: 30+250+150+25+200+25+20 = 700ps.\\
+2. ld: 30+250+150+25+200+250+25+20 = 950ps.\\
+3. sd: 30+250+150+200+25+250 = 905ps.\\
+4. beq: 30+250+150+25+200+5+25+20 = 705ps.\\
+5. I-type: 30+250+150+25+25+20 = 700ps.\\
+6. 最短时钟周期为950ps.
 \subsection*{思考题}
 1.寻址方式如何实现?\\
 \hspace*{0.5cm}Registers: 通过指令译码得到地址.\\
@@ -34,5 +41,17 @@ MemtoReg=0.\\
 5.能否将两个Memory合而为一?\\
 \hspace*{0.5cm}不可以.单周期CPU中对指令的读取和对数据的读写操作在同一个是时钟周期内完成, 若将两个Memory
 合成为一个单端口ram, 则不能同时满足.
+
+\section*{多周期部分}
+1. 每一类指令的指令周期内包含多少时钟周期?\\
+\hspace*{0.5cm}R型指令: 4.\hspace*{1cm}     I型指令: 4.\\
+\hspace*{0.5cm}S型指令: 5.\hspace*{1cm}     B型指令: 3.
+
+
+2. 分别分析R/I/S/B-type指令的多周期设计方案中每个周期用到的功能部件.\\
+R型指令: Memory, IR, Registers, A, B, ALU, MUX, ALUOut.\\
+I型指令: Memory, IR, Registers, SignExtend, A, B, ALU, ALUOut,MUX, MDR(对lw).\\
+S型指令: Memory, IR, Registers, A, B, ALU, MUX, ALUOut, 
+B型指令: Memory, IR, Registers, A, B, ALU, MUX, ALUOut, PCMUX.
 
 \end{document}
