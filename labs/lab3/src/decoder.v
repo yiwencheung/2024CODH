@@ -1,30 +1,39 @@
 module Decoder #(
     parameter DATA_WIDTH = 32
 ) (
-    input           [31 : 0]    inst,       //指令
-    output  reg     [31 : 0]    CTL,        //控制信号
+    input           [DATA_WIDTH-1 : 0]    inst,       //指令
+    output  reg     [DATA_WIDTH-1 : 0]    CTL,        //控制信号
     output  reg     [4 : 0]     rj, rd,     //源寄存器
     output  reg     [4 : 0]     rk,         //目标寄存器
-    output  reg     [31 : 0]     imm         //符号扩展后的立即数
+    output  reg     [DATA_WIDTH-1 : 0]     imm         //符号扩展后的立即数
 );
-//控制信号， 最终将控制信号集成为一根总线CTL
-reg    pc_sel;         //pc选择， +4/+offset
-reg    RF_Write;       //寄存器写使能
-reg    reg_sel;        //选择寄存器的第二个端口 rk/rd
-reg    SE_en;          //符号扩展使能
-reg    A_sel;          //ALUsrc0选择   pc/reg
-reg    B_sel;          //ALUsrc1选择   reg/imm
-reg    dm_we;          //data memory写使能
-reg    MemtoReg;       //目标寄存器数据来源 ALU/DM     
-reg    [3 : 0] ALU_op;
+//控制信号， 最终将控制信号集成为一根总线CTL(已定义共17位)
+reg     RF_Write;           //寄存器写使能
+reg     reg_sel;            //选择寄存器的第二个端口 rk/rd
+reg     A_sel;              //ALUsrc0选择   pc/reg
+reg     B_sel;              //ALUsrc1选择   reg/imm
+reg     dm_we;              //data memory写使能 
+reg     if_bj;              //在转移指令为1， 该信号与外部CMP结果经与门后作为外部PC_MUX的选择信号 
+reg     [1 : 0] MemtoReg;   //目标寄存器数据来源 00：ALU/01：DM/10：PC+4（对于jril等指令）   
+//转移指令判断条件，用于CMP模块: 000等于， 001不等于， 010小于， 011大于等于， 100无符号数小于， 101无符号大于等于， 110无条件跳转
+reg     [2 : 0] bj_sel;     
+reg     [1 : 0] wd_sel;     //访存指令访问字/半字/字节的选择, 00:字, 01:半字, 10:字节
+reg     [3 : 0] ALU_op;
+
+
+always @(*) begin
+    CTL = {15'd0, RF_Write, reg_sel, A_sel, B_sel, dm_we, if_bj, MemtoReg, bj_sel, wd_sel, ALU_op};
+end
+
 
 always @(*) begin
     //设置默认值
-    pc_sel = 0; RF_Write = 0; reg_sel = 0;
-    SE_en = 0;  A_sel = 0;    B_sel = 0;  
-    dm_we = 0;  MemtoReg = 0; ALU_op = 4'd0;
+    RF_Write = 0; reg_sel = 0;
+    A_sel = 0;    B_sel = 0;  
+    dm_we = 0;  MemtoReg = 2'b00; ALU_op = 4'd0;
     rd = inst[4 : 0];  rj = inst[9 : 5]; rk = inst[14 : 10]; 
     imm = 32'd0;
+    if_bj = 0;
     //译码
     case (inst[31 : 26])
         6'b000_000: begin   //大部分算数指令
@@ -125,17 +134,17 @@ always @(*) begin
                 4'b0000: begin
                     //ld.b
                     RF_Write = 1; 
-                    MemtoReg = 1;
+                    MemtoReg = 2'b01;
                 end 
                 4'b0001: begin
                     //ld.h
                     RF_Write = 1; 
-                    MemtoReg = 1;
+                    MemtoReg = 2'b01;
                 end
                 4'b0010:begin
                     //ld.w
                     RF_Write = 1; 
-                    MemtoReg = 1;
+                    MemtoReg = 2'b01;
                 end
                 4'b0100: begin
                     //st.b
@@ -158,18 +167,84 @@ always @(*) begin
                 4'b1000: begin
                     //ld.bu
                     RF_Write = 1; 
-                    MemtoReg = 1;
+                    MemtoReg = 2'b01;
                 end
                 4'b1001: begin
                     //ld.hu
                     RF_Write = 1; 
-                    MemtoReg = 1;
+                    MemtoReg = 2'b01;
                 end
             endcase
         end
-        
+        //转移指令
+        6'b010_011: begin
+            //jirl
+            if_bj = 1;  bj_sel = 3'b110;
+            A_sel = 1; B_sel = 1; 
+            ALU_op = 4'd0; reg_sel = 1;
+            MemtoReg = 2'b10;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};  //offset16符号位扩展
+        end
+        6'b010_100: begin
+            //b
+            if_bj = 1;  bj_sel = 3'b110;
+            A_sel = 0; B_sel = 1; 
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{4{inst[9]}}, inst[9 : 0], inst[25 : 10], 2'd0};
+        end
+        6'b010_101: begin
+            //bl
+            if_bj = 1;  bj_sel = 3'b110;
+            A_sel = 0; B_sel = 1; 
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{4{inst[9]}}, inst[9 : 0], inst[25 : 10], 2'd0};
+            //pc+4写入r1
+            rd = 5'd1;      
+            RF_Write = 1;   MemtoReg = 2'b10;
+        end
+        6'b010_110: begin
+            //beq
+            if_bj = 1;  bj_sel = 3'b000;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
+        6'b010_111: begin
+            //bne
+            if_bj = 1;  bj_sel = 3'b001;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
+        6'b011_000: begin
+            //blt
+            if_bj = 1;  bj_sel = 3'b010;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
+        6'b011_001: begin
+            //beg
+            if_bj = 1;  bj_sel = 3'b011;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
+        6'b011_010: begin
+            //bltu
+            if_bj = 1;  bj_sel = 3'b100;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
+        6'b011_011: begin
+            //bgeu
+            if_bj = 1;  bj_sel = 3'b101;
+            A_sel = 0; B_sel = 1;
+            ALU_op = 4'd0; reg_sel = 1;
+            imm = {{14{inst[25]}}, inst[25 : 10], 2'd0};
+        end
     endcase
-
 end
 
 endmodule
