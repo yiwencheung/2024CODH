@@ -17,12 +17,12 @@ reg     if_bj;              //在转移指令为1， 该信号与外部CMP结果
 reg     [1 : 0] MemtoReg;   //目标寄存器数据来源 00：ALU/01：DM/10：PC+4（对于jril等指令）   
 //转移指令判断条件，用于CMP模块: 000等于， 001不等于， 010小于， 011大于等于， 100无符号数小于， 101无符号大于等于， 110无条件跳转
 reg     [2 : 0] bj_sel;     
-reg     [1 : 0] wd_sel;     //访存指令访问字/半字/字节的选择, 00:字, 01:半字, 10:字节
+reg     [2 : 0] wd_sel;     //访存指令访问字/半字/字节的选择, 000:字, 001:半字, 010:字节, 101:无符号半字, 110:无符号字节
 reg     [3 : 0] ALU_op;
 
 
 always @(*) begin
-    CTL = {15'd0, RF_Write, reg_sel, A_sel, B_sel, dm_we, if_bj, MemtoReg, bj_sel, wd_sel, ALU_op};
+    CTL = {14'd0, RF_Write, reg_sel, A_sel, B_sel, dm_we, if_bj, MemtoReg, bj_sel, wd_sel, ALU_op};
 end
 
 
@@ -32,7 +32,7 @@ always @(*) begin
     A_sel = 0;    B_sel = 0;  
     dm_we = 0;  MemtoReg = 2'b00; ALU_op = 4'd0;
     rd = inst[4 : 0];  rj = inst[9 : 5]; rk = inst[14 : 10]; 
-    imm = 32'd0;
+    imm = 32'd0;    wd_sel = 3'd0;
     if_bj = 0;
     //译码
     case (inst[31 : 26])
@@ -133,11 +133,13 @@ always @(*) begin
             case (inst[25 : 22])
                 4'b0000: begin
                     //ld.b
+                    wd_sel = 3'b010;
                     RF_Write = 1; 
                     MemtoReg = 2'b01;
                 end 
                 4'b0001: begin
                     //ld.h
+                    wd_sel = 3'b001;
                     RF_Write = 1; 
                     MemtoReg = 2'b01;
                 end
@@ -148,12 +150,14 @@ always @(*) begin
                 end
                 4'b0100: begin
                     //st.b
+                    wd_sel = 3'b010;
                     dm_we = 1;
                     RF_Write = 0;
                     reg_sel = 1;
                 end
                 4'b0101: begin
                     //st.h
+                    wd_sel = 3'b001;
                     dm_we = 1;
                     RF_Write = 0;
                     reg_sel = 1;
@@ -166,11 +170,13 @@ always @(*) begin
                 end
                 4'b1000: begin
                     //ld.bu
+                    wd_sel = 3'b110;
                     RF_Write = 1; 
                     MemtoReg = 2'b01;
                 end
                 4'b1001: begin
                     //ld.hu
+                    wd_sel = 3'b101;
                     RF_Write = 1; 
                     MemtoReg = 2'b01;
                 end

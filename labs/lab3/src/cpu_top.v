@@ -22,7 +22,7 @@ module cpu_top(
     output reg  [31 : 0]    pc
 );
 
-reg     [31 : 0]    next_pc;
+wire     [31 : 0]    next_pc;
 reg     [4 : 0]     rj, rd, rk;
 reg     [4 : 0]     rm;     //regMUX的结果
 reg     [31 : 0]    rd0, rd1;
@@ -34,19 +34,24 @@ reg     dm_we;
 reg     if_bj;
 reg     [1 : 0] MemtoReg;
 reg     [2 : 0] bj_sel;
-reg     [1 : 0] wd_sel;
+reg     [2 : 0] wd_sel;
 reg     [3 : 0] ALU_op;
 wire    [31 : 0]    ALU_out;
 wire    [31 : 0]    reg_din;
 wire    [31 : 0]    A_out, B_out;
+wire    [31 : 0]    dm_out;
+wire                pc_sel;
+wire    [31 : 0]    pc_plus_4;
 
 //更新pc
 always @(posedge clk, negedge rstn) begin
     if(!rstn)
-        pc <= 32'h1bfffffc;
+        pc <= 0;
     else
         pc <= next_pc;
 end
+
+assign pc_plus_4 = pc + 4;
 
 //根据是否在debug模式下，决定选择的时钟信号,仅对im和dm有效
 wire clk_mem;
@@ -54,23 +59,25 @@ assign clk_mem = debug ?  clk : clk_ld;
 //例化im与dm
 inst_mem im(
     .clk(clk_mem),
-    .a(addr),
+    .a(pc[14 : 2]),
     .d(din),
     .we(we_im),
     .spo(dout_im)
 );
-data_mem dm(
+RAM dm(
     .clk(clk_mem),
-    .a(addr),
-    .d(din),
-    .we(we_dm),
-    .spo(dout_dm)
+    .addr(ALU_out[11 : 2]),
+    .addr_sdu(addr[11 : 2]),
+    .din(rd1),
+    .wd_sel(wd_sel),
+    .we(dm_we),
+    .dout(dm_out),
+    .dout_sdu(dout_dm)
 );
 //例化译码器
 Decoder dcd(
     .inst(dout_im),
     .CTL(CTL),
-    .rj(rj),
     .rd(rd),
     .rj(rj),
     .rk(rk),
@@ -78,12 +85,12 @@ Decoder dcd(
 );
 //分配控制信号
 always @(*) begin
-    RF_we = CTL[16]; reg_sel = CTL[15];
-    A_sel = CTL[14]; B_sel = CTL[13];
-    dm_we = CTL[12]; if_bj = CTL[11];
-    MemtoReg = CTL[10 : 9];
-    bj_sel = CTL[8 : 6];
-    wd_sel = CTL[5 :4];
+    RF_we = CTL[17]; reg_sel = CTL[16];
+    A_sel = CTL[15]; B_sel = CTL[14];
+    dm_we = CTL[13]; if_bj = CTL[12];
+    MemtoReg = CTL[11 : 10];
+    bj_sel = CTL[9 : 7];
+    wd_sel = CTL[6 :4];
     ALU_op = CTL[3 : 0];
 end
 //例化寄存器堆
@@ -126,13 +133,33 @@ MUX mux_B(
     .res(B_out)
 );
 
+MUX pc_Mux(
+    .src0(pc_plus_4),
+    .src1(ALU_out),
+    .sel(pc_sel),
+    .res(next_pc)
+);
+
 MUX4 Mem2Reg(
     .src0(ALU_out),
-    .src1(dout_dm),
+    .src1(dm_out),
     .src2(pc_plus_4),
     .src3(),
     .sel(MemtoReg),
     .res(reg_din)
 );
+
+//CMP模块用于转移指令
+CMP cmp(
+    .src0(rd0),
+    .src1(rd1),
+    .if_bj(if_bj),
+    .bj_sel(bj_sel),
+    .PC_sel(pc_sel)
+);
+//输出给sdu的端口
+always @(*) begin
+    npc = next_pc;
+end
 
 endmodule
