@@ -26,14 +26,14 @@ always @(*) begin
 end
 
 
-always @(*) begin
+always @(inst) begin
     //设置默认值
     RF_Write = 0; reg_sel = 0;
     A_sel = 0;    B_sel = 0;  
     dm_we = 0;  MemtoReg = 2'b00; ALU_op = 4'd0;
     rd = inst[4 : 0];  rj = inst[9 : 5]; rk = inst[14 : 10]; 
-    imm = 32'd0;    wd_sel = 3'd0;
-    if_bj = 0;
+    imm = 32'd0;    wd_sel = 3'd0; 
+    if_bj = 0; bj_sel = 3'b000;
     //译码
     case (inst[31 : 26])
         6'b000_000: begin   //大部分算数指令
@@ -54,6 +54,7 @@ always @(*) begin
                         5'b01110:   ALU_op = 4'd8;
                         5'b01111:   ALU_op = 4'd9;
                         5'b10000:   ALU_op = 4'd10;
+                        default: ALU_op = 4'd0;
                     endcase
                 end
                 4'b0001: begin
@@ -64,7 +65,8 @@ always @(*) begin
                     case (inst[19 : 18])
                         2'b00:  ALU_op = 4'd8;
                         2'b01:  ALU_op = 4'd9;
-                        2'b11:  ALU_op = 4'd10; 
+                        2'b10:  ALU_op = 4'd10; 
+                        default: ALU_op = 4'd8;
                     endcase
                 end
                 4'b1000: begin

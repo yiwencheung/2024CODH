@@ -19,7 +19,7 @@ always @(*) begin
        4'd7: res = src0 ^ src1;
        4'd8: res = src0 << src1[4:0];
        4'd9: res = src0 >> src1[4:0];
-       4'd10: res = src0 >>> src1[4:0];
+       4'd10: res = $signed(src0) >>> src1[4:0];
        4'd11: res = src1;
     default: res = 32'hFFFF;      
     endcase
