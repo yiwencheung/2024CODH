@@ -28,3 +28,5 @@ INFO: [VRFC 10-311] analyzing module decoder_6_64
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Projects/2024CODH/labs/lab4/39inst_env/soc_verify/soc_dram/testbench/mycpu_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb_top
 WARNING: [VRFC 10-2096] empty statement in sequential block [D:/Projects/2024CODH/labs/lab4/39inst_env/soc_verify/soc_dram/testbench/mycpu_tb.v:236]
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Projects/2024CODH/labs/lab4/39inst_env/soc_verify/soc_dram/run_vivado/project/loongson.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

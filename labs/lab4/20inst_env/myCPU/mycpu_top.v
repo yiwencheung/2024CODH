@@ -256,7 +256,7 @@ assign br_offs = need_si26 ? {{ 4{i26[25]}}, i26[25:0], 2'b0} :
 
 assign jirl_offs = {{14{i16[15]}}, i16[15:0], 2'b0};
 
-assign src_reg_is_rd = inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu | inst_st_w;
+assign src_reg_is_rd = inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu | inst_st_w | inst_st_b | inst_st_h;
 
 assign src1_is_pc    = inst_jirl | inst_bl | inst_pcaddu12i_w;
 
@@ -334,6 +334,8 @@ memMask w_mask(
     .invalue(rkd_value),
     .mem_sel(alu_result[1:0]),
     .type_sel({mem_byte, mem_halfword, mem_ubyte, mem_uhalfword}),
+    .lors(1),
+    .dm_rdata(data_sram_rdata),
     .outvalue(dmem_masked_wdata)
     );
 
@@ -345,6 +347,8 @@ memMask r_mask(
     .invalue(data_sram_rdata),
     .mem_sel(alu_result[1:0]),
     .type_sel({mem_byte, mem_halfword, mem_ubyte, mem_uhalfword}),
+    .lors(0),
+    .dm_rdata(32'h0000_0000),
     .outvalue(mem_result)
     );
 
