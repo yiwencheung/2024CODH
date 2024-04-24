@@ -1,0 +1,20 @@
+0.7
+2020.2
+Oct 13 2023
+20:47:58
+D:/Projects/2024CODH/labs/lab4/sorting_env/run_vivado/CPU_SRT/CPU_SRT.gen/sources_1/ip/data_ram_1/sim/data_ram.v,1713933004,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/run_vivado/CPU_SRT/CPU_SRT.gen/sources_1/ip/inst_ram/sim/inst_ram.v,,data_ram,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/run_vivado/CPU_SRT/CPU_SRT.gen/sources_1/ip/inst_ram/sim/inst_ram.v,1713859454,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/alu.v,,inst_ram,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/run_vivado/CPU_SRT/CPU_SRT.sim/sim_1/behav/xsim/glbl.v,1697210495,verilog,,,,glbl,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/Fren_divider.sv,1711461969,systemVerilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/counter_8.sv,,Fren_divider,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/counter_8.sv,1711461994,systemVerilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/decoder.sv,,counter_8,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/decoder.sv,1711461999,systemVerilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/mux.sv,,decoder,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/mux.sv,1711462012,systemVerilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/seven_decode.sv,,mux,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/seven_decode.sv,1713859167,systemVerilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/update_seg.sv,,seven_decode,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/Seg/update_seg.sv,1711462077,systemVerilog,,,,update_seg,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/alu.v,1713795143,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/memMask.v,,alu,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/memMask.v,1713775927,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/mycpu_top.v,,memMask,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/mycpu_top.v,1713891014,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/regfile.v,,mycpu_top,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/regfile.v,1704077910,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/sort_top.v,,regfile,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/sort_top.v,1713865708,verilog,,D:/Projects/2024CODH/labs/lab4/sorting_env/src/tools.v,,sort_top,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/testbench.v,1713927556,verilog,,,,sort_tb,,uvm,,,,,,
+D:/Projects/2024CODH/labs/lab4/sorting_env/src/tools.v,1704077910,verilog,,,,decoder_2_4;decoder_4_16;decoder_5_32;decoder_6_64,,uvm,,,,,,

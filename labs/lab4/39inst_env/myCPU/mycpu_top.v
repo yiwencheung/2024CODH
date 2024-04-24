@@ -256,7 +256,7 @@ assign br_offs = need_si26 ? {{ 4{i26[25]}}, i26[25:0], 2'b0} :
 
 assign jirl_offs = {{14{i16[15]}}, i16[15:0], 2'b0};
 
-assign src_reg_is_rd = inst_beq | inst_bne | inst_st_w;
+assign src_reg_is_rd = inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu | inst_st_w;
 
 assign src1_is_pc    = inst_jirl | inst_bl | inst_pcaddu12i_w;
 
@@ -278,7 +278,8 @@ assign src2_is_imm   = inst_slli_w |
 
 assign res_from_mem  = inst_ld_w | inst_ld_b | inst_ld_h | inst_ld_bu | inst_ld_hu;
 assign dst_is_r1     = inst_bl;
-assign gr_we         = ~inst_st_w & ~inst_st_b & ~inst_st_h & ~inst_beq & ~inst_bne & ~inst_b;
+assign gr_we         = ~inst_st_w & ~inst_st_b & ~inst_st_h & ~inst_beq & ~inst_bne & ~inst_b & ~inst_blt & ~inst_bltu
+                        & ~inst_bge & ~inst_bgeu;
 assign mem_we        = inst_st_w | inst_st_b | inst_st_h;
 assign dest          = dst_is_r1 ? 5'd1 : rd;
 
@@ -303,11 +304,15 @@ assign rj_lt_rd = ($signed(rj_value) < $signed(rkd_value));
 assign rj_ltu_rd = (rj_value < rkd_value);
 assign br_taken = (   inst_beq  &&  rj_eq_rd
                    || inst_bne  && !rj_eq_rd
+                   || inst_blt  &&  rj_lt_rd
+                   || inst_bge  && !rj_lt_rd
+                   || inst_bltu &&  rj_ltu_rd
+                   || inst_bgeu && !rj_ltu_rd
                    || inst_jirl
                    || inst_bl
                    || inst_b
                   ) && valid;
-assign br_target = (inst_beq || inst_bne || inst_bl || inst_b) ? (pc + br_offs) :
+assign br_target = (inst_beq || inst_bne || inst_blt || inst_bge || inst_bltu || inst_bgeu || inst_bl || inst_b) ? (pc + br_offs) :
                                                    /*inst_jirl*/ (rj_value + jirl_offs);
 
 assign alu_src1 = src1_is_pc  ? pc : rj_value;

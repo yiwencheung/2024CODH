@@ -1,0 +1,9 @@
+Time resolution is 1 ps
+WARNING: This core is supplied with a behavioral model. To model cycle-accurate behavior you must run timing simulation.
+WARNING: This core is supplied with a behavioral model. To model cycle-accurate behavior you must run timing simulation.
+WARNING in sort_tb.st.dmem.inst at time               550000 ns: 
+Reading from out-of-range address. Max address in sort_tb.st.dmem.inst is          15
+WARNING in sort_tb.st.dmem.inst at time               710000 ns: 
+Reading from out-of-range address. Max address in sort_tb.st.dmem.inst is          15
+WARNING in sort_tb.st.dmem.inst at time               870000 ns: 
+Reading from out-of-range address. Max address in sort_tb.st.dmem.inst is          15

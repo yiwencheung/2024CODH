@@ -1,0 +1,108 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
+| Date         : Mon Apr 22 23:30:21 2024
+| Host         : LAPTOP-54TG6O0D running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file soc_lite_top_control_sets_placed.rpt
+| Design       : soc_lite_top
+| Device       : xc7a100t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    30 |
+|    Minimum number of control sets                        |    30 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    51 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    30 |
+| >= 0 to < 4        |     2 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    27 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             137 |           44 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |             246 |          109 |
+| Yes          | No                    | No                     |              32 |           12 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |             478 |          135 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-----------------------------+--------------------------------------------------------------------------------------------+------------------------+------------------+----------------+--------------+
+|         Clock Signal        |                                        Enable Signal                                       |    Set/Reset Signal    | Slice Load Count | Bel Load Count | Bels / Slice |
++-----------------------------+--------------------------------------------------------------------------------------------+------------------------+------------------+----------------+--------------+
+|  pll.clk_pll/inst/cpu_clk   | u_confreg/step0_sample                                                                     | u_confreg/clear        |                1 |              1 |         1.00 |
+|  pll.clk_pll/inst/cpu_clk   | u_confreg/step1_sample                                                                     | u_confreg/clear        |                1 |              1 |         1.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_9[0]                                                               | u_confreg/clear        |                2 |              8 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   |                                                                                            | u_confreg/step0_count0 |                5 |             20 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   |                                                                                            | u_confreg/step1_count0 |                5 |             20 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/conf_rdata_reg[31]_i_8_0                                                     | u_confreg/clear        |               12 |             32 |         2.67 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_3[0]                                                               | u_confreg/clear        |                6 |             32 |         5.33 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_4[0]                                                               | u_confreg/clear        |                9 |             32 |         3.56 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_5[0]                                                               | u_confreg/clear        |               11 |             32 |         2.91 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_12[0]                                                              | u_confreg/clear        |                9 |             32 |         3.56 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_11[0]                                                              | u_confreg/clear        |               11 |             32 |         2.91 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_8[0]                                                               | u_confreg/clear        |                8 |             32 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_6[0]                                                               | u_confreg/clear        |                8 |             32 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_10[0]                                                              | u_confreg/clear        |                6 |             32 |         5.33 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_7[0]                                                               | u_confreg/clear        |               13 |             32 |         2.46 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/E[0]                                                                         | u_confreg/clear        |                8 |             32 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/cpu_resetn_reg[0]                                                            |                        |               12 |             32 |         2.67 |
+|  pll.clk_pll/inst/timer_clk |                                                                                            | u_confreg/clear        |                8 |             32 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_0[0]                                                               | u_confreg/clear        |                9 |             34 |         3.78 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_1[0]                                                               | u_confreg/clear        |                8 |             34 |         4.25 |
+|  pll.clk_pll/inst/cpu_clk   |                                                                                            | u_confreg/clear        |               14 |             42 |         3.00 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/valid_reg_2[0]                                                               | u_confreg/clear        |               13 |             48 |         3.69 |
+|  pll.clk_pll/inst/timer_clk |                                                                                            |                        |               16 |             67 |         4.19 |
+|  pll.clk_pll/inst/cpu_clk   | cpu/u_regfile/rf_reg_r1_0_31_0_5_i_1_n_0                                                   |                        |               11 |             88 |         8.00 |
+|  pll.clk_pll/inst/cpu_clk   | data_ram/U0/synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg_0_255_0_0_i_1_n_0    |                        |               32 |            128 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | data_ram/U0/synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg_512_767_0_0_i_1_n_0  |                        |               32 |            128 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | data_ram/U0/synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg_256_511_0_0_i_1_n_0  |                        |               32 |            128 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   | data_ram/U0/synth_options.dist_mem_inst/gen_sp_ram.spram_inst/ram_reg_768_1023_0_0_i_1_n_0 |                        |               32 |            128 |         4.00 |
+|  pll.clk_pll/inst/cpu_clk   |                                                                                            | cpu/reset              |               77 |            132 |         1.71 |
+|  pll.clk_pll/inst/cpu_clk   |                                                                                            |                        |             2076 |           8262 |         3.98 |
++-----------------------------+--------------------------------------------------------------------------------------------+------------------------+------------------+----------------+--------------+
+
+

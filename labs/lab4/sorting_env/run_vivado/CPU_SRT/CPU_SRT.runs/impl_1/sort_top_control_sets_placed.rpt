@@ -1,0 +1,87 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
+| Date         : Wed Apr 24 12:39:11 2024
+| Host         : LAPTOP-54TG6O0D running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file sort_top_control_sets_placed.rpt
+| Design       : sort_top
+| Device       : xc7a100t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |     9 |
+|    Minimum number of control sets                        |     9 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    35 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |     9 |
+| >= 0 to < 4        |     3 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     5 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               1 |            1 |
+| No           | No                    | Yes                    |               4 |            2 |
+| No           | Yes                   | No                     |              36 |           13 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |              32 |            8 |
+| Yes          | Yes                   | No                     |               4 |            1 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++---------------------------+-----------------------------------------+---------------------------+------------------+----------------+--------------+
+|        Clock Signal       |              Enable Signal              |      Set/Reset Signal     | Slice Load Count | Bel Load Count | Bels / Slice |
++---------------------------+-----------------------------------------+---------------------------+------------------+----------------+--------------+
+|                           |                                         | my_seg/Fren_divider2/rstn |                1 |              1 |         1.00 |
+|  clk_IBUF_BUFG            |                                         | my_seg/Fren_divider2/rstn |                2 |              3 |         1.50 |
+|  my_seg/Fren_divider2/CLK |                                         | my_seg/Fren_divider2/rstn |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG            | data_sram_top_addr[2]_i_1_n_0           | my_seg/Fren_divider2/rstn |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG            | mt/we                                   |                           |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG            | my_seg/Fren_divider2/q[0]_i_1__0_n_0    | my_seg/Fren_divider2/rstn |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG            |                                         |                           |                9 |             33 |         3.67 |
+|  clk_IBUF_BUFG            |                                         | mt/reset                  |               11 |             33 |         3.00 |
+|  clk_IBUF_BUFG            | mt/u_regfile/rf_reg_r1_0_31_0_5_i_1_n_0 |                           |               11 |             88 |         8.00 |
++---------------------------+-----------------------------------------+---------------------------+------------------+----------------+--------------+
+
+

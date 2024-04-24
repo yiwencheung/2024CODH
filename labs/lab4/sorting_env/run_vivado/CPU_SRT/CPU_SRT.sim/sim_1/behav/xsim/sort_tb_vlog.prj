@@ -1,0 +1,27 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../CPU_SRT.gen/sources_1/ip/data_ram_1/sim/data_ram.v" \
+"../../../../CPU_SRT.gen/sources_1/ip/inst_ram/sim/inst_ram.v" \
+"../../../../../../src/alu.v" \
+"../../../../../../src/memMask.v" \
+"../../../../../../src/mycpu_top.v" \
+"../../../../../../src/regfile.v" \
+"../../../../../../src/sort_top.v" \
+"../../../../../../src/tools.v" \
+
+sv xil_defaultlib  \
+"../../../../../../src/Seg/Fren_divider.sv" \
+"../../../../../../src/Seg/counter_8.sv" \
+"../../../../../../src/Seg/decoder.sv" \
+"../../../../../../src/Seg/mux.sv" \
+"../../../../../../src/Seg/seven_decode.sv" \
+"../../../../../../src/Seg/update_seg.sv" \
+
+verilog xil_defaultlib  \
+"../../../../../../src/testbench.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
