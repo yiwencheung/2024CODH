@@ -146,8 +146,20 @@ reg  [31:0] pc_if;
 reg  [31:0] pc_id;
 reg  [31:0] inst_if;
 reg  [31:0] imm_id;
-reg  [31:0] rf_rdata1_id, rf_rdata2_id;
-reg         rf_we_id, rf_we_ex, rf_we_mem, rf_we_wb;
+reg  [31:0] alu_src1_id, alu_src2_id;
+reg         rf_we_id, rf_we_ex, rf_we_mem;
+reg  [11:0] alu_op_id;
+reg  [31:0] br_offs_id, jirl_offs_id;
+reg  [31:0] rj_value_id; 
+reg  [31:0] rkd_value_id;
+wire        br_type;
+reg         br_type_id, br_taken_id;
+wire  [3:0] mem_type;
+reg   [3:0] mem_type_id;
+reg         mem_we_id;
+reg   [4:0] dest_id;  
+reg         res_from_mem_id;
+reg  [31:0] alu_result_ex;
 
 
 //IF_Stage
@@ -313,30 +325,22 @@ regfile u_regfile(
     .rdata1 (rf_rdata1),
     .raddr2 (rf_raddr2),
     .rdata2 (rf_rdata2),
-    .we     (rf_we_wb ),
-    .waddr  (rf_waddr ),
-    .wdata  (rf_wdata )
+    .we     (rf_we_mem),
+    .waddr  (rf_waddr_mem),
+    .wdata  (rf_wdata_mem)
     );
-//ID-EX
-always @(posedge clk) begin
-    if (reset) begin
-        pc_id <= 32'h0000_0000;
-        imm_id <= 32'h0000_0000;
-        rf_rdata1_id <= 32'h0000_0000;
-        rf_rdata2_id <= 32'h0000_0000;
-        rf_we_id <= 0;
-    end
-    else begin
-        pc_id <= pc_if;
-        imm_id <= imm;
-        rf_rdata1_id <= rf_rdata1;
-        rf_rdata2_id <= rf_rdata2;
-        rf_we_id <= rf_we;
-    end
-end
 
 assign rj_value  = rf_rdata1;
 assign rkd_value = rf_rdata2;
+
+assign alu_src1 = src1_is_pc  ? pc : rj_value;
+assign alu_src2 = src2_is_imm ? imm : rkd_value;
+
+assign mem_byte = inst_ld_b | inst_st_b;
+assign mem_halfword = inst_ld_h | inst_st_h;
+assign mem_ubyte = inst_ld_bu;
+assign mem_uhalfword = inst_ld_hu;
+assign mem_type = {mem_byte, mem_halfword, mem_ubyte, mem_uhalfword};
 
 assign rj_eq_rd = (rj_value == rkd_value);
 assign rj_lt_rd = ($signed(rj_value) < $signed(rkd_value));
@@ -351,56 +355,151 @@ assign br_taken = (   inst_beq  &&  rj_eq_rd
                    || inst_bl
                    || inst_b
                   ) && valid;
-assign br_target = (inst_beq || inst_bne || inst_blt || inst_bge || inst_bltu || inst_bgeu || inst_bl || inst_b) ? (pc + br_offs) :
-                                                   /*inst_jirl*/ (rj_value + jirl_offs);
+assign br_type = inst_beq || inst_bne || inst_blt || inst_bge || inst_bltu || inst_bgeu || inst_bl || inst_b;
 
-assign alu_src1 = src1_is_pc  ? pc : rj_value;
-assign alu_src2 = src2_is_imm ? imm : rkd_value;
+//ID-EX
+always @(posedge clk) begin
+    if (reset) begin
+        pc_id <= 32'h0000_0000;
+        imm_id <= 32'h0000_0000;
+        rf_we_id <= 0;
+        alu_src1_id <= 32'h0000_0000;
+        alu_src2_id <= 32'h0000_0000;
+        rj_value_id <= 32'h0000_0000;
+        rkd_value_id <= 32'h0000_0000;
+        alu_op_id <= 12'd0;
+    end
+    else begin
+        pc_id <= pc_if;
+        imm_id <= imm;
+        rf_we_id <= rf_we;
+        alu_src1_id <= alu_src1;
+        alu_src2_id <= alu_src2;
+        rj_value_id <= rj_value;
+        rkd_value_id <= rkd_value;
+        alu_op_id <= alu_op;
+    end
+end
+
+always @(posedge clk) begin
+    if(reset) begin
+        br_offs_id <= 32'h0000_0000;
+        jirl_offs_id <= 32'h0000_0000;
+        br_type_id <= 1;
+        br_taken_id <= 0;
+    end
+    else begin
+        br_offs_id <= br_offs;
+        jirl_offs_id <= jirl_offs;
+        br_type_id <= br_type;
+        br_taken_id <= br_taken;
+    end
+end
+
+always @(posedge clk) begin
+    if(reset) begin
+        res_from_mem_id <= 0;
+        mem_type_id <= 4'b1000;
+        dest_id <= 5'd1;
+        mem_we_id <= 0;
+    end
+    else begin
+        res_from_mem_id <= res_from_mem;
+        mem_type_id <= mem_type;
+        mem_we_id <= mem_we;
+        dest_id <= dest;
+    end
+end
+
+//EX_Stage
+reg         mem_we_ex;
+reg         mem_type_ex;
+reg         res_from_mem_ex;
+reg [4:0]   dest_ex;
+reg [31:0]  br_target_ex;
+reg [31:0]  dmem_wdata_ex;
+
+assign br_target = br_type_id ? (pc_id + br_offs) : /*inst_jirl*/ (rj_value_id + jirl_offs);
 
 alu u_alu(
-    .alu_op     (alu_op    ),
-    .alu_src1   (alu_src1  ),
-    .alu_src2   (alu_src2  ),
+    .alu_op     (alu_op_id   ),
+    .alu_src1   (alu_src1_id ),
+    .alu_src2   (alu_src2_id ),
     .alu_result (alu_result)
     );
 
-assign mem_byte = inst_ld_b | inst_st_b;
-assign mem_halfword = inst_ld_h | inst_st_h;
-assign mem_ubyte = inst_ld_bu;
-assign mem_uhalfword = inst_ld_hu;
+//EX-MEM
+always @(posedge clk) begin
+    if(reset) begin
+        alu_result_ex <= 32'h0000_0000;
+        mem_we_ex <= 0;
+        dest_ex <= 4'd0;
+        br_target_ex <= 32'h0000_0000;
+        dmem_wdata_ex <= 32'h0000_0000;
+        mem_type_ex <= 4'b1000;
+        res_from_mem_ex <= 0;
+        rf_we_ex <= 0;
+    end
+    else begin
+        alu_result_ex <= alu_result;
+        mem_we_ex <= mem_we_id;
+        dest_ex <= dest_id;
+        br_target_ex <= br_target;
+        dmem_wdata_ex <= rkd_value_id;
+        mem_type_ex <= mem_type_id;
+        res_from_mem_ex <= res_from_mem_id;
+        rf_we_ex <= rf_we_id;
+    end
+end
+
+//MEM
+reg  [4:0]   rf_waddr_mem;
+reg  [31:0]  rf_wdata_mem;
+
+assign data_sram_we    = mem_we_ex && valid;
+assign data_sram_addr  = alu_result_ex;
 
 memMask w_mask(
-    .invalue(rkd_value),
-    .mem_sel(alu_result[1:0]),
-    .type_sel({mem_byte, mem_halfword, mem_ubyte, mem_uhalfword}),
+    .invalue(dmem_wdata_ex),
+    .mem_sel(alu_result_ex[1:0]),
+    .type_sel(mem_type_ex),
     .lors(1),
     .dm_rdata(data_sram_rdata),
     .outvalue(dmem_masked_wdata)
     );
 
-assign data_sram_we    = mem_we && valid;
-assign data_sram_addr  = alu_result;
-assign data_sram_wdata = dmem_masked_wdata; 
-
 memMask r_mask(
     .invalue(data_sram_rdata),
-    .mem_sel(alu_result[1:0]),
-    .type_sel({mem_byte, mem_halfword, mem_ubyte, mem_uhalfword}),
+    .mem_sel(alu_result_ex[1:0]),
+    .type_sel(mem_type_ex),
     .lors(0),
     .dm_rdata(32'h0000_0000),
     .outvalue(mem_result)
     );
 
-assign final_result = res_from_mem ? mem_result : alu_result;
-
-
-assign rf_waddr = dest;
+assign data_sram_wdata = dmem_masked_wdata; 
+assign final_result = res_from_mem_ex ? mem_result : alu_result_ex;
+assign rf_waddr = dest_ex;
 assign rf_wdata = final_result;
+
+//MEM-WB
+always @(posedge clk ) begin
+    if(reset) begin
+        rf_waddr_mem <= 5'd0;
+        rf_wdata_mem <= 32'h0000_0000;
+        rf_we_mem <= 0;
+    end
+    else begin
+        rf_waddr_mem <= rf_waddr;
+        rf_wdata_mem <= rf_wdata;
+        rf_we_mem <= rf_we_ex;
+    end
+end
 
 // debug info generate
 assign debug_wb_pc       = pc;
-assign debug_wb_rf_we    = {4{rf_we}};
-assign debug_wb_rf_wnum  = dest;
-assign debug_wb_rf_wdata = final_result;
+assign debug_wb_rf_we    = {4{rf_we_mem}};
+assign debug_wb_rf_wnum  = rf_waddr_mem;
+assign debug_wb_rf_wdata = rf_wdata_mem;
 
 endmodule
