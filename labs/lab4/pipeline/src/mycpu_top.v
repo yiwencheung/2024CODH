@@ -150,17 +150,25 @@ reg  [31:0] alu_src1_id, alu_src2_id;
 reg         rf_we_id, rf_we_ex, rf_we_mem;
 reg  [11:0] alu_op_id;
 reg  [31:0] br_offs_id, jirl_offs_id;
+wire  [8:0] br_insts;
+reg  [8:0]  br_insts_id;
+reg         src1_is_pc_id, src2_is_imm_id;   
+reg  [ 4:0] rf_raddr1_id, rf_raddr2_id;
 reg  [31:0] rj_value_id; 
 reg  [31:0] rkd_value_id;
+reg         load_flag_id;
 wire        br_type;
-reg         br_type_id, br_taken_id;
+reg         br_type_id;
 wire  [3:0] mem_type;
 reg   [3:0] mem_type_id;
 reg         mem_we_id;
 reg   [4:0] dest_id;  
 reg         res_from_mem_id;
-reg  [31:0] alu_result_ex;
+reg   [31:0] alu_result_ex;
 
+reg   [31:0] rf_rd1_fd, rf_rd2_fd;
+reg          rf_rd1_fe, rf_rd2_fe;
+wire         stall_flag;
 
 //IF_Stage
 assign seq_pc       = pc + 3'h4;
@@ -181,9 +189,13 @@ assign inst_sram_wdata = 32'b0;
 
 //IF-ID
 always @(posedge clk) begin
-    if(reset) begin
+    if(reset || br_taken) begin
         pc_if <= 32'h1bff_fffc;
         inst_if <= 32'h0000_0000;
+    end
+    else if(stall_flag) begin
+        pc_if <= pc_if;
+        inst_if <= inst_if;
     end
     else begin
         pc_if <= pc;
@@ -333,81 +345,72 @@ regfile u_regfile(
 assign rj_value  = rf_rdata1;
 assign rkd_value = rf_rdata2;
 
-assign alu_src1 = src1_is_pc  ? pc : rj_value;
-assign alu_src2 = src2_is_imm ? imm : rkd_value;
-
 assign mem_byte = inst_ld_b | inst_st_b;
 assign mem_halfword = inst_ld_h | inst_st_h;
 assign mem_ubyte = inst_ld_bu;
 assign mem_uhalfword = inst_ld_hu;
 assign mem_type = {mem_byte, mem_halfword, mem_ubyte, mem_uhalfword};
 
-assign rj_eq_rd = (rj_value == rkd_value);
-assign rj_lt_rd = ($signed(rj_value) < $signed(rkd_value));
-assign rj_ltu_rd = (rj_value < rkd_value);
-assign br_taken = (   inst_beq  &&  rj_eq_rd
-                   || inst_bne  && !rj_eq_rd
-                   || inst_blt  &&  rj_lt_rd
-                   || inst_bge  && !rj_lt_rd
-                   || inst_bltu &&  rj_ltu_rd
-                   || inst_bgeu && !rj_ltu_rd
-                   || inst_jirl
-                   || inst_bl
-                   || inst_b
-                  ) && valid;
+assign br_insts = {inst_beq, inst_bne, inst_blt, inst_bge, inst_bltu, inst_bgeu, inst_jirl, inst_bl, inst_b};
 assign br_type = inst_beq || inst_bne || inst_blt || inst_bge || inst_bltu || inst_bgeu || inst_bl || inst_b;
 
 //ID-EX
 always @(posedge clk) begin
-    if (reset) begin
+    if (reset || br_taken || stall_flag) begin
         pc_id <= 32'h0000_0000;
         imm_id <= 32'h0000_0000;
         rf_we_id <= 0;
-        alu_src1_id <= 32'h0000_0000;
-        alu_src2_id <= 32'h0000_0000;
+        src1_is_pc_id <= 0;
+        src2_is_imm_id <= 0;
+        rf_raddr1_id <= 5'h0;
+        rf_raddr2_id <= 5'h0;
         rj_value_id <= 32'h0000_0000;
         rkd_value_id <= 32'h0000_0000;
         alu_op_id <= 12'd0;
+        br_insts_id <= 9'd0;
     end
     else begin
         pc_id <= pc_if;
         imm_id <= imm;
         rf_we_id <= rf_we;
-        alu_src1_id <= alu_src1;
-        alu_src2_id <= alu_src2;
+        rf_raddr1_id <= rf_raddr1;
+        rf_raddr2_id <= rf_raddr2;
+        src1_is_pc_id <= src1_is_pc;
+        src2_is_imm_id <= src2_is_imm;
         rj_value_id <= rj_value;
         rkd_value_id <= rkd_value;
         alu_op_id <= alu_op;
+        br_insts_id <= br_insts;
     end
 end
 
 always @(posedge clk) begin
-    if(reset) begin
+    if(reset || br_taken || stall_flag) begin
         br_offs_id <= 32'h0000_0000;
         jirl_offs_id <= 32'h0000_0000;
         br_type_id <= 1;
-        br_taken_id <= 0;
     end
     else begin
         br_offs_id <= br_offs;
         jirl_offs_id <= jirl_offs;
         br_type_id <= br_type;
-        br_taken_id <= br_taken;
     end
 end
 
 always @(posedge clk) begin
-    if(reset) begin
+    if(reset || br_taken || stall_flag) begin
         res_from_mem_id <= 0;
         mem_type_id <= 4'b1000;
         dest_id <= 5'd1;
         mem_we_id <= 0;
+        load_flag_id <= 0;
     end
     else begin
         res_from_mem_id <= res_from_mem;
         mem_type_id <= mem_type;
         mem_we_id <= mem_we;
         dest_id <= dest;
+        load_flag_id <= inst_ld_b || inst_ld_bu || inst_ld_h || inst_ld_hu || inst_ld_w;
     end
 end
 
@@ -418,13 +421,33 @@ reg         res_from_mem_ex;
 reg [4:0]   dest_ex;
 reg [31:0]  br_target_ex;
 reg [31:0]  dmem_wdata_ex;
+wire [31:0]  rj_value_forward, rkd_value_forward;
 
-assign br_target = br_type_id ? (pc_id + br_offs) : /*inst_jirl*/ (rj_value_id + jirl_offs);
+assign rj_value_forward = (rf_rd1_fe ? rf_rd1_fd : rj_value_id);
+assign rkd_value_forward = (rf_rd2_fe ? rf_rd2_fd : rkd_value_id);
+
+assign rj_eq_rd = (rj_value_forward == rkd_value_forward);
+assign rj_lt_rd = ($signed(rj_value_forward) < $signed(rkd_value_forward));
+assign rj_ltu_rd = (rj_value_forward < rkd_value_forward);
+assign br_taken = (   br_insts[8]  &&  rj_eq_rd
+                   || br_insts[7]  && !rj_eq_rd
+                   || br_insts[6]  &&  rj_lt_rd
+                   || br_insts[5]  && !rj_lt_rd
+                   || br_insts[4] &&  rj_ltu_rd
+                   || br_insts[3] && !rj_ltu_rd
+                   || br_insts[2]
+                   || br_insts[1]
+                   || br_insts[0]
+                  ) && valid;
+
+assign br_target = br_type_id ? (pc_id + br_offs_id) : /*inst_jirl*/ (rj_value_forward + jirl_offs_id);
+assign alu_src1 = src1_is_pc_id  ? pc_id : rj_value_forward;
+assign alu_src2 = src2_is_imm_id ? imm_id : rkd_value_forward;
 
 alu u_alu(
     .alu_op     (alu_op_id   ),
-    .alu_src1   (alu_src1_id ),
-    .alu_src2   (alu_src2_id ),
+    .alu_src1   (alu_src1),
+    .alu_src2   (alu_src2),
     .alu_result (alu_result)
     );
 
@@ -445,7 +468,7 @@ always @(posedge clk) begin
         mem_we_ex <= mem_we_id;
         dest_ex <= dest_id;
         br_target_ex <= br_target;
-        dmem_wdata_ex <= rkd_value_id;
+        dmem_wdata_ex <= rkd_value_forward;
         mem_type_ex <= mem_type_id;
         res_from_mem_ex <= res_from_mem_id;
         rf_we_ex <= rf_we_id;
@@ -501,5 +524,25 @@ assign debug_wb_pc       = pc;
 assign debug_wb_rf_we    = {4{rf_we_mem}};
 assign debug_wb_rf_wnum  = rf_waddr_mem;
 assign debug_wb_rf_wdata = rf_wdata_mem;
+
+//前递模块
+forwardUnit fu(
+    .rf_we_mem(rf_we_ex),
+    .rf_we_wb(rf_we_mem),
+    .rf_wd_mem(alu_result_ex),
+    .rf_wd_wb(rf_wdata_mem),
+    .rf_wa_mem(dest_ex),
+    .rf_wa_wb(rf_waddr_mem),
+    .rf_ra0_ex(rf_raddr1_id),
+    .rf_ra1_ex(rf_raddr2_id),
+    .rf_rd0_fd(rf_rd1_fd),
+    .rf_rd1_fd(rf_rd2_fd),
+    .rf_rd0_fe(rf_rd1_fe),
+    .rf_rd1_fe(rf_rf2_fe)
+);
+
+//读取-使用型冒险
+assign stall_flag = load_flag_id && (dest_id == rf_raddr1 || dest_id == rf_raddr2);
+
 
 endmodule

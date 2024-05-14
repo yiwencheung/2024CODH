@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{verbatim}
+
+\title{CODH作业4}
+\author{张博厚 PB22071354}
+\date{}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+
+\section*{4.16}
+1.流水线: 350ps, 非流水线: 1250ps.\\
+2.在两种处理器中, 对于ld指令的延迟均为1250ps.\\
+3.拆分ID, 新处理器时钟周期为300ps.
+
+\section*{4.23}
+1.流水线级数的减少不一定会影响时钟周期, 这取决于延迟最长的流水线级是否改变.\\
+2.可能提高性能. 将MEM和EX阶段重叠会减少一条指令执行完毕所需的时钟周期数, 同时可以
+减少ld指令与使用其结果的R型指令之间的阻塞, 因此可能提高性能.\\
+3.也可能降低性能. 使用寄存器作为访存地址而不需要立即数偏移, 可能会需要在原本的访存指令
+前添加addi指令, 使得需要执行的总指令数增加.
+\end{document}
+
